@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shinhan Bank L/C Service [관리 서비스]</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge; chrome=1"> <!--IE Edge 최신 엔진으로 페이지 렌더링, chromeframe 사용 유저에게 렌더링-->
+    <meta charset="utf-8"> <!--문자 인코딩 방식-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet" type="text/css"> <!--CSS 연결-->
+</head>
+
+<body>
+    <nav>
+        <ul class="nav-container">
+            <!--문서를 링크시키기 위해 사용하는 태그-->
+            <li class="nav-item"> <a href="find.html">신용장 전체</a> </li>
+            <li class="nav-item"> <a href="find.html">신용장 조회</a> </li>
+            <li class="nav-item"> <a href="print.html">신용장 출력</a> </li>
+            <li class="nav-item"> <a href="reject.html">신용장 거절</a> </li>
+            <li class="nav-item"> <a href="buy.html">신용장 매입</a> </li>
+        </ul>
+    </nav>
+    
+	<script type="text/javascript">
+       	var xhr = new XMLHttpRequest();
+         xhr.open('POST','/lcn/historyManagement.jsp'); // 보내는 스트림 열기
+         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded'); // 헤더 선언, 데이터 인코딩
+         xhr.send("kind=find"); // 백엔드로 데이터 전송
+         xhr.addEventListener('load',function () {
+ 			result = JSON.parse(xhr.responseText); // result.result[0] result.result[1]
+			if(result.isSuccess == undefined)
+			{
+				alert('서버와의 연결이 불안정합니다');
+			}else
+			{
+				if(result.isSuccess == 'true')
+				{
+					loadText(result.result);	
+				}else
+				{
+					alert('DB와의 연결이 불안정합니다');
+				}
+			}
+ 			 
+ 		});
+   		
+   		
+   		function loadText(result)
+   		{
+   			var i =0;
+   			
+   			var tableRef = document.getElementById('showTable').getElementsByTagName('tbody')[0];
+   			var RowCount = tableRef.rows.length;
+
+   			while(result[i] != undefined)
+ 			{
+   				var newRow = tableRef.insertRow(RowCount);
+	   			var newCell1 = newRow.insertCell(0);
+	   			var newCell2 = newRow.insertCell(1);
+	   			var newCell3 = newRow.insertCell(2);
+	   			var newCell4 = newRow.insertCell(3);
+	   			var newCell5 = newRow.insertCell(4);
+	   			var newCell6 = newRow.insertCell(5);
+	   			
+  				newCell1.innerHTML = result[i].bankCode;
+  				newCell2.innerHTML = result[i].notiNumber;
+  				newCell3.innerHTML = result[i].notiChangeNum;
+  				newCell4.innerHTML = result[i].date;
+  				newCell5.innerHTML = result[i].request;
+  				newCell6.innerHTML = result[i].success;
+
+				i+=1;
+ 			}
+
+   		}
+    </script>
+
+    <div class="container">
+        <div class="table table-striped">
+            <table class="type09" id="showTable">
+                <thead>
+                    <tr>
+                    	<th><B>은행코드</B></th>
+                        <th><B>통지번호</B></th>
+                        <th><B>통지조건변경순번</B></th>
+                        <th><B>날짜 및 시간</B></th>
+                        <th><B>요청 종류</B></th>
+                        <th><B>성공 여부</B></th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

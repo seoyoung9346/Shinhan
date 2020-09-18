@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+   <head>
+       <title>Shinhan Bank L/C Service [고객 정보 조회]</title>
+       <meta http-equiv="X-UA-Compatible" content="IE=Edge; chrome=1"> <!--IE Edge 최신 엔진으로 페이지 렌더링, chromeframe 사용 유저에게 렌더링-->
+       <meta charset="utf-8"> <!--문자 인코딩 방식-->
+       <link href="style.css" rel="stylesheet" type="text/css"> <!--CSS 연결-->
+   </head>
+
+   <body>
+       <!--navigation bar-->
+       <nav>
+           <ul class="nav-container">
+               <!--문서를 링크시키기 위해 사용하는 태그-->
+               <li class="nav-item"> <a href="">신한은행 홈</a> </li>
+               <li class="nav-item"> <a href="main.html">메인페이지</a> </li>
+               <li class="nav-item"> <a href="bank.jsp">신용장 매입 서비스</a> </li>
+           </ul>
+       </nav>
+
+       <div class="inner_lc">
+           <div class="lc-reference">
+               <h1 id="title">신용장 정보 조회</h1>
+               <legend id="information">메일/문자로 통지 받은 정보를 입력해주세요.</legend>
+           </div>
+       </div>
+
+       <script type="text/javascript">
+           function sendData() {
+               var bankCode = document.getElementById('info1').value;
+               var notiNumber = document.getElementById('info2').value;
+               var notiChangeNum = document.getElementById('info3').value;
+               var password = document.getElementById('password').value;
+              
+               if(bankCode == "" || notiNumber == "" || notiChangeNum == "" || password == "")
+               {
+                   alert('모든 정보를 입력해주세요.');
+                   //history.go(0);
+               }
+               else
+               {
+                   document.inquiryForm.submit();
+               }
+           }
+      </script>
+                                                                                                                           
+       <div class="inner_inquiry">
+           <div class="inquiry_tistory">
+               <form name="inquiryForm" action="getLC.jsp" method="post" enctype="application/x-www-form-urlencoded">
+                   <fieldset>
+                       <legend class="screen_out">신용장 조회 정보 입력폼</legend>
+                       <div class="box_inquiry">
+                           <div class="inp_text">
+                               <label for="info1" class="screen_out">은행코드</label>
+                               <input type="text" id="info1" name="info1" placeholder="은행코드">
+                           </div>
+                           <div class="inp_text">
+                               <label for="info2" class="screen_out">통지번호</label>
+                               <input type="text" id="info2" name="info2" placeholder="통지번호">
+                           </div>
+                           <div class="inp_text">
+                               <label for="info3" class="screen_out">통지조건변경순번</label>
+                               <input type="text" id="info3" name="info3" placeholder="통지조건변경순번">
+                           </div>
+                           <div class="inp_text">
+                               <label for="password" class="screen_out">비밀번호</label>
+                               <input type="password" id="password" name="password" placeholder="비밀번호">
+                               <i class="fa fa-eye fa-lg"></i>
+                           </div>
+                       </div>
+                       <button type="button" class="btn_inquiry" onclick="sendData()">조회</button>
+                   </fieldset>
+               </form>
+           </div>
+       </div>   
+   </body>
+</html>

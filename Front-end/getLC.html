@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Shinhan Bank L/C Service [고객 정보 조회]</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=Edge; chrome=1"> <!--IE Edge 최신 엔진으로 페이지 렌더링, chromeframe 사용 유저에게 렌더링-->
+   <meta charset="utf-8"> <!--문자 인코딩 방식-->
+   <link href="style.css" rel="stylesheet" type="text/css"> <!--CSS 연결-->
+</head>
+
+<body>
+   <script type="text/javascript">
+       function send(url, classname, ...args) {
+           // 백엔드에 보낼 데이터를 담을 리스트 생성
+           var data = {'bankCode'       : args[0],
+                   'notiNumber'    : args[1],
+                   'notiChangeNum' : args[2],
+                  };
+           data = JSON.stringify(data); // JavaScript 값을 JSON 문자열로 변환
+           // 비동기적(페이지 렌더링 없이 데이터 받기)으로 정보를 요청
+           var xhr = new XMLHttpRequest(); // 생성자 호출
+           xhr.open('post',url); // 보내는 스트림 열기
+           xhr.setRequestHeader('Content-Type','application/json'); // 헤더 선언, 데이터 인코딩
+           xhr.send(data); // 백엔드로 데이터 전송
+           xhr.addEventListener('load',function () {
+               var result = JSON.parse(xhr.responseText); // result class 에 백엔드에서 넘어온 정보를 JSON 형식으로 바꾸어 입력 -> 나중에 result.name 이런 식으로 필요한 정보 가져오기
+               loadText('result', result);
+           });
+       }
+
+       function loadText(classname, result) {
+           console.log(2);
+           // 페이지 수
+           var count = Object.keys(classname).length;
+          
+           // 최상위 컨테이너 생성
+           var div = document.createElement('div');
+           div.className = 'topcontainer';
+           // result 가져오기
+           //var result = document.querySelectorAll("." + classname);
+           for (var i = 0; i < count; i+=30) {
+               var page = document.createElement('div');
+               page.className = 'page';
+               for (var j = 0; j < 30; j++) {
+                   page.innerHTML += result.result[i+j] + '<br>';
+               }
+
+               div.appendChild(page);
+               var last = document.createElement("br");
+               div.appendChild(last);
+           }
+
+           document.getElementById("top").appendChild(div);
+
+       }
+
+       // get 으로 보낸 입력데이터 (bankCode, notiNumber, notiChangeNum) 받기
+       function parseQueryString() {
+           var a = window.location.search.substr(1).split('&');
+           if (a == "") return {};
+           var b = {};
+           for (var i = 0; i < a.length; ++i) {
+               var p = a[i].split('=', 2);
+               if (p.length == 1)
+                   b[p[0]] = "";
+               else
+                   b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, ""));
+           }
+           return b;
+       }
+
+       // 여기서 로드 이벤트 시작 (신용장 띄우기)
+       window.addEventListener("load", function(event) {
+           var keys = parseQueryString();
+           send('http://172.25.237.190:3000/query', 'result', keys[0], keys[1], keys[2]);
+       });
+      
+       // 출력하기
+       function printQR() {
+           /*
+           // client 에서 넘긴 입력 데이터들 받아서 출력 요청
+           var keys = parseQueryString();
+           send('http://172.29.255.189:3000/print', 'success', keys[0], keys[1], keys[2]);
+           // 백에서 성공 신호 보낼 시 QR 생성 및 인쇄
+           var submit = document.getElementsByClassName("success"); // 만약 오류가 이 줄에서 뜬다면 뒤에 [0]을 붙여주세요!
+           if(submit.isSuccess == true) {
+               getQR();
+               loadText('qr');
+               window.print();
+           }
+           else
+               alert('신용장 출력에 실패하였습니다. 다시 시도해주십시오.');
+           */
+
+           window.print();
+       }
+
+       // 신용장 수령 거절 시
+       function inquiry() {
+           // 백에 거절 요청
+           var keys = parseQueryString();
+           send('http://172.25.237.190:3000/reject', 'reject', keys[0], keys[1], keys[2]);
+           // 거절 확인
+           var submit = document.getElementsByClassName("reject"); // 만약 오류가 이 줄에서 뜬다면 뒤에 [0]을 붙여주세요!
+           if (submit.isSuccess == true){
+               alert('신용장이 거절되었습니다. 메인 페이지로 이동합니다.');
+               //history.go(-4);
+           }
+           else
+               alert('신용장 거절이 실패되었습니다. 다시 시도해주십시오.');
+       }
+
+       // 키 값 보내서 QR 생성 후 qr 이라는 class 에 담아주기
+       function getQR() {
+           var keys = parseQueryString();
+           //send('getQr.jsp?z=bank.html?'bankCode='+keys[0]+'notiNumber='+keys[1]+'notiChangeNum='+keys[2]', 'qr', keys[0], keys[1], keys[2]);
+       }
+
+   </script>
+
+   <!--백에서 보낸 정보들 담을 객체 생성-->
+   <div class="success" type="hidden"></div>
+   <div class="qr" type="hidden"></div>
+   <div class="result" type="hidden"></div>
+   <div class="reject" type="hidden"></div>
+
+   <div class="print_loc">
+       <div class="inner_print">
+           <div class="hide">
+               <h1 id="title">신용장 정보 조회</h1>
+               <p id="information">거래를 진행하실 경우 출력을, 거래를 원치 않으실 경우 거절을 선택해주세요.</p>
+               </br>
+           </div>
+      
+           <div class="topcontainer" id="top" style="overflow-y:auto; overflow-x:hidden; width:100%; height:565px;"> <!--스크롤-->
+               <div class="page">
+               </br>
+               </br>
+               </br>
+               </br>
+               </br>
+               </br>
+               </br>
+               SENDING BANK
+               KOMBCZPPXXX
+               *APPLICANT
+               </br>
+               KOMERCNI BANKA A.S.
+               ONDREJOVICKA STROJIRNA, A.S.
+               </br>
+               NA PRIKOPE 33
+               CESKOBRATRSKA 1403/2
+               </br>
+               </br>
+               114 07
+               PRAGUE
+               CZECH REPUBLIC
+               </br>
+               CZECHIA
+               </br>
+               *BENEFICIARY
+               *AMOUNT
+               &nbsp;&nbsp;
+               :EUR619,877.76   
+               </br>
+               /123-456-789104
+               </br>
+               NESCO(NATIONAL ENGINEERING SUPPLIES
+               *EXPIRY
+               DATE: FEB.28.2020
+               </br>
+               CORP.), JIAN SQUARE BLDG 308A, 6
+               *ISSUING DATE:
+               </br>
+               HWAJEONSANDAN 4-RO 30 BEON-GIL,
+               </br>
+               ______________________________________________________________________________
+               </br>
+               </br>
+               점번호: 5617
+               </br>
+               고객   : 54621378
+               </br>
+               : 27 / SEQUENCE OF TOTAL                   :1/1
+               </br>
+               : 40A/FORM OF DOCUMENTARY CREDIT   :IRREVOCABLE
+               </br>
+               :20 / DOCUMENTARY CREDIT NUMBER     :ACIFRWE086242
+               </br> 
+               :31C / DATE OF ISSUE                           :180323
+               </br>
+               :40E/APPLICABLE RULES                        :
+               </br>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               :31D/DATE AND PLACE OF EXPIRY           :20314231SOUTH KOREA
+               </br>
+               :40 / APPLICANT                                  :DEVCOS ENGINEERING FZE
+               </br>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               P.O BOX:32234, HAMRIYA FREE
+               </br>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               ZONE, HARJAH, U.A.E
+               </br>
+               :32B /CURRENCY CODE, AMOUNT           :USD23131.44
+               </br>
+               :41D/AVAILABLE WITH ... BY ...                :ANY BANK IN SOUTH KOREA
+               </br>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               BY DEF PAYMENT
+               </br>
+               :42P/DEFERRED PAYMENT DETAILS          :90 DAYS AFTER BILL OF DATE
+               </div>
+           </div>
+
+           <div class="hide">
+               <form>
+                   <button type="button" class="btn2_inquiry" onclick="printQR();">출력</button>
+                   <button type="button" class="btn2_inquiry" onclick="inquiry();">거절</button>
+               </form>
+           </div>
+          
+       </div>
+   </div>
+</body>
+</html>
