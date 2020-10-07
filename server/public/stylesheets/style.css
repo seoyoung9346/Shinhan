@@ -1,0 +1,322 @@
+.nav-container {
+   position: absolute;
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   background-color: #3579d4;
+   list-style-type: none; /* 목록 기호 제거 */
+}
+
+.nav-item {
+   padding: 15px;
+   cursor: pointer;
+   line-height: 1.5;
+}
+
+.nav-item a { /* nav-item class 아래의 a 요소를 선택 */
+   text-align: center;
+   text-decoration: none;
+   color: white;
+   font: 400 15px Arial;
+}
+
+.nav-item a:hover {
+   background-color:#6495ed;
+   color: black;
+   padding: 15px;
+}
+
+.inner_lc {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   margin: -230px 0 0 -133px;
+}
+
+.lc-reference {
+   position: relative;
+   width: 320px;
+   height: 100px;
+}
+
+#title {
+   font: 700 30px Arial;
+}
+
+#information {
+   font: 400 15px Arial;
+}
+
+input {
+   -webkit-writing-mode: horizontal-tb !important;
+   text-rendering: auto;
+   color: initial;
+   letter-spacing: normal;
+   text-transform: none;
+   text-indent: 0px;
+   text-shadow: none;
+   display: inline-block;
+   text-align: start;
+   -webkit-rtl-ordering: logical;
+   cursor: text;
+   margin: 0em;
+   font: 400 13.3333px Arial;
+   padding: 1px 0px;
+   border-width: 2px;
+   border-style: inset;
+   border-color: initial;
+   border-image: initial;
+}
+
+.inner_inquiry {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   margin: -145px 0 0 -160px;
+}
+
+.inquiry_tistory {
+   position: absolute;
+   width: 320px;
+   margin: 0 auto;
+}
+
+.screen_out {
+   position: absolute;
+   width: 0;
+   height: 0;
+   overflow: hidden;
+   line-height: 0;
+   text-indent: -9999px;
+}
+
+button, input {
+   font-size: 13px;
+   line-height: 1.5;
+   -webkit-font-smoothing: antialiased;
+}
+
+fieldset {
+   border: 0;
+}
+
+.inquiry_tistory .box_inquiry {
+   margin: 35px 0 0;
+   border: 1px solid #ddd;
+   border-radius: 3px;
+   background-color: #fff;
+   box-sizing: border-box;
+}
+
+.inquiry_tistory .inp_text {
+   position: relative;
+   width: 100%;
+   margin: 0;
+   padding: 18px 19px 19px;
+   box-sizing: border-box;
+}
+
+.inquiry_tistory .inp_text+.inp_text {
+   border-top: 1px solid #ddd;
+}
+
+.inp_text input {
+   display : block;
+   width: 100%;
+   height: 100%;
+   font-size: 13px;
+   color: #000;
+   border: none;
+   outline: 0;
+   -webkit-appearance: none;
+   background-color: transparent;
+}
+
+.btn_inquiry {
+   margin: 20px 0 0;
+   border: 1px solid #ddd;
+   border-radius: 3px;
+   background-color: #fff;
+   box-sizing: border-box;
+   width: 100%;
+   height: 48px;
+   border-radius: 3px;
+   font-size: 16px;
+   color: #fff;
+   background-color: #1456ac;
+}
+
+.btn2_inquiry {
+   position: relative;
+   left: 480px;
+   top: -200px;  
+   border: 1px solid #ddd;
+   border-radius: 3px;
+   background-color: #fff;
+   box-sizing: border-box;
+   width: 100px;
+   height: 100px;
+   border-radius: 3px;
+   font-size: 16px;
+   color: #fff;
+   background-color: #1456ac;
+}
+
+body {
+   margin: 0;
+}
+
+table {
+   position: absolute;
+   top: 57px;
+   font: 400 15px Arial;
+   text-align: center;
+}
+
+table.type09 {
+   width: 100%;
+   border-collapse: collapse;
+   text-align: left;
+   line-height: 1.5;
+}
+
+table.type09 thead th {
+   padding: 10px;
+   font-weight: bold;
+   vertical-align: top;
+   color: #369;
+   border-bottom: 3px solid #036;
+}
+
+table.type09 tbody th {
+   width: 150px;
+   padding: 10px;
+   font-weight: bold;
+   vertical-align: top;
+   border-bottom: 1px solid #ccc;
+   background: #f3f6f7;
+}
+
+table.type09 td {
+   width: 350px;
+   padding: 10px;
+   vertical-align: top;
+   border-bottom: 1px solid #ccc;
+}
+
+.inner{
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   margin: -230px 0 0 -133px;
+}
+
+.reference {
+   position: relative;
+   width: 320px;
+   height: 100px;
+}
+
+#information {
+   font: 400 15px Arial;
+}
+
+.inner_login {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   margin: -145px 0 0 -160px;
+}
+.login{
+       position: relative;
+       width: 320px;
+       margin: 0 auto;
+}
+
+.login .box_login {
+   margin: 35px 0 0;
+   border: 1px solid #ddd;
+   border-radius: 3px;
+   background-color: #fff;
+   box-sizing: border-box;
+}
+.login .inp_text {
+   position: relative;
+   width: 100%;
+   margin: 0;
+   padding: 18px 19px 19px;
+   box-sizing: border-box;
+}
+.login .inp_text+.inp_text {
+   border-top: 1px solid #ddd;
+}
+
+.btn_login {
+   margin: 20px 0 0;
+   width: 100%;
+   height: 48px;
+   border-radius: 3px;
+   font-size: 16px;
+   color: #fff;
+   background-color: #1456ac;
+}
+
+* {
+   box-sizing: border-box;
+   -moz-box-sizing: border-box;
+}
+
+.page {
+   width: 10.5cm;
+   min-height: 14.85cm;
+   padding: 0.5cm;
+   margin: 0 auto;
+   background: #fff;
+   border: 1px #000 solid;
+   font-size: 9px;
+   line-height: 15px;
+}
+
+@page {
+   size: A4;
+   margin: 0px;
+}
+
+@media print {
+   html, body {
+       width: 210mmm;
+       height: 297mm;
+   }
+   .page {
+       margin: 0;
+       border: initial;
+       width: initial;
+       min-height: initial;
+       box-shadow: initial;
+       background: initial;
+       page-break-after: always;
+   }
+   .hide {
+       display: none;
+   }
+}
+
+.print_loc {
+   position: absolute;
+   left: 5%;
+   right: 10%;
+
+   width: 500px;
+   height: 565px;
+}
+
+.inner_print {
+   position: absolute;
+}
+
+
+.print_loc .hide {
+   left: 10px;
+}

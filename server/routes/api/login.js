@@ -1,0 +1,17 @@
+const queryCC = require('../../fabricsdk/queryCC.js')
+const mariaDB = require('./mariadb-connect.js');
+
+module.exports = async function(req, res, next){
+    try {   
+            const dbResult = await mariaDB.login(req.body.userid);
+            if(dbResult[0].pw === req.body.userpw && dbResult[0].role === 'admin') {
+                res.render('tracking/totalData');
+                return;
+            }
+            else {
+                res.redirect('/admin');
+            }
+    } catch (error) {
+        res.redirect('/admin');
+    }
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shinhan Bank L/C Service [이력관리]</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge; chrome=1"> <!--IE Edge 최신 엔진으로 페이지 렌더링, chromeframe 사용 유저에게 렌더링-->
+    <meta charset="utf-8"> <!--문자 인코딩 방식-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css"> <!--CSS 연결-->
+</head>
+
+<body>
+	<nav>
+        <ul class="nav-container">
+            <li class="nav-item"> <a href="totalData.html">이력관리 홈</a> </li>
+            <li class="nav-item"> <a href="findData.html">신용장 조회</a> </li>
+            <li class="nav-item"> <a href="printData.html">신용장 출력</a> </li>
+            <li class="nav-item"> <a href="rejectData.html">신용장 거절</a> </li>
+            <li class="nav-item"> <a href="buyData.html">신용장 매입</a> </li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+       	<div class="table table-striped">
+            <table class="type09" id="showTable">
+                <thead>
+                    <tr>
+                        <th><B>은행코드</B></th>
+                        <th><B>통지번호</B></th>
+                        <th><B>통지조건변경순번</B></th>
+                        <th><B>날짜 및 시간</B></th>
+                        <th><B>요청 종류</B></th>
+                        <th><B>성공 여부</B></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="/javascripts/totalData.js"></script>
+</html>

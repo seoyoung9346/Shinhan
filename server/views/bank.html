@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Shinhan Bank L/C Service [매입 서비스]</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=Edge; chrome=1"> <!--IE Edge 최신 엔진으로 페이지 렌더링, chromeframe 사용 유저에게 렌더링-->
+   <meta charset="utf-8"> <!--문자 인코딩 방식-->
+   <link href="/stylesheets/style.css" rel="stylesheet" type="text/css"> <!--CSS 연결-->
+
+</head>
+
+<body>
+   <!--네이게이션 바-->
+   <nav>
+       <ul class="nav-container">
+           <li class="nav-item"><a href="/">신한은행 홈</a></li>
+           <li class="nav-item"><a href="main.html">메인페이지</a></li>
+           <li class="nav-item"><a href="client.html">신용장 정보 조회</a></li>
+       </ul>
+   </nav>
+
+   <script type="text/javascript">
+
+       // 매입
+       function sendData()
+       {
+           var password = document.getElementById('password').value;
+
+           // 아무것도 입력하지 않았을 시
+           if(password == "")
+           {
+           alert('정보를 입력해주세요.');
+           //history.go(0);
+           }
+           else
+           {
+               // QR에서 보낸 입력데이터 값 받아서 원본확인
+               var keys = parseQueryString();
+               send('http://172.29.255.189:3000/check', 'result', keys[0], keys[1], keys[2], password);
+               var submit = document.getElementsByClassName("result"); // 만약 오류가 이 줄에서 뜬다면 뒤에 [0]을 붙여주세요!
+               if (submit.isSuccess == true) {
+                   alert('신용장 원본 확인되었습니다. 매입을 진행합니다.');
+                   // 신용장 매입 요청
+                   send('http://172.29.255.189:3000/buy', 'result', keys[0], keys[1], keys[2], password);
+                   submit = document.getElementsByClassName("result");
+                   if (submit.isSuccess == true)
+                       alert('신용장 매입이 완료되었습니다.');
+                   else
+                       alert('수령 거절된 신용장이거나 매입이 이미 완료된 신용장입니다.');
+               }
+               else
+                   alert('신용장 원본 확인에 실패하였습니다.');
+           }
+       }
+
+       // 백엔드와 연동
+       function send(url, ...args) {
+           // 백엔드에 보낼 데이터를 담을 리스트 생성
+           var data = {'bankCode'      : args[0],
+                       'notiNumber'    : args[1],
+                       'notiChangeNum' : args[2],                         
+                       'password'      : args[3],
+                       };
+           data = JSON.stringify(data); // JavaScript 값을 JSON 문자열로 변환
+           // 비동기적(페이지 렌더링 없이 데이터 받기)으로 정보를 요청
+           var xhr = new XMLHttpRequest(); // 생성자 호출               xhr.open('post',url); // 보내는 스트림 열기
+           xhr.setRequestHeader('Content-Type','application/json'); // 헤더 선언, 데이터 인코딩
+           xhr.send(data); // 백엔드로 데이터 전송
+           xhr.addEventListener('load',function () {
+           var result = JSON.parse(xhr.responseText); // getresult class 에 백엔드에서 넘어온 정보를 JSON 형식으로 바꾸어 입력 -> 나중에 result.name 이런 식으로 필요한 정보 가져오기
+           document.querySelector('.' + classname).innerHTML = result;
+           });
+       }
+
+       // get 으로 받은 데이터 손보기
+       function parseQueryString() {
+           var a = window.location.search.substr(1).split('&');
+           if (a=="") return {};
+           var b = {};
+           for(var i=0; i<a.length; ++i){
+               var p = a[i].split('=',2);
+               if(p.length ==1)
+                   b[p[0]]="";
+               else  
+                   b[p[0]]=decodeURIComponent(p[1].replace(/\+/g, " "));
+           }
+           return b;
+       }
+
+   </script>
+
+   <!--백엔드에서 보내는 데이터 받을 객체 생성-->
+   <div class="result" type="hidden"></div>
+
+   <div class="inner_inquiry">
+       <div class="inquiry_tistory">
+           <form name="inquiryForm" action="webserver.jsp" method="post" enctype="application/x-www-form-urlencoded">
+               <fieldset>
+                   <legend class="screen_out">신용장 매입 서비스</legend>
+                   <h1 id="title"> 신용장 매입 서비스</h1>
+                   <p style ="line-height: 1px">
+                   <legend id="information">조회 할 신용장의 비밀번호를 입력해주세요.</legend>
+                   </p>
+                   <div class="box_inquiry">
+                       <div class="inp_text">
+                           <label for="password" class="screen_out">비밀번호</label>
+                           <input type="password" id="password" name="password" placeholder="비밀번호">
+                           <i class="fa fa-eye fa-lg"></i>
+                       </div>
+                   </div>
+                   <button type="button" class="btn_inquiry" onclick="sendData()">신용장 매입</button>
+               </fieldset>
+           </form>
+       </div>
+   </div>
+
+</body>
+
+</html>

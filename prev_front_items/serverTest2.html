@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<!-- 백엔드 테스트용이니까 지우지 말아주세요 ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ-->
+	<head>
+		<title>TestPage</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function sendData() {
+				send('http://172.23.255.61:3000')
+			}
+			
+			function send(url) {
+				var data = {'message' : "hello world!"};
+				data = JSON.stringify(data);
+				var xhr = new XMLHttpRequest();
+				
+				xhr.open('post', url);
+				xhr.setRequestHeader('Content-Type', 'appllication/json');
+				xhr.send(data);
+				xhr.addEventListener('load', function () {
+					var result = JSON.parse(xhr.responseText);
+					document.querySelector('#result').innerHTML = result;
+				});
+			}
+		</script>
+		<div>
+			<h1>Hello!!</h1>
+			<h1 id="result"></h1>
+			<button OnClick='sendData()'>Send Test</button>
+		</div>
+	</body>
+</html>
