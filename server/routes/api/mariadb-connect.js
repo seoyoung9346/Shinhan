@@ -65,4 +65,30 @@ var queryLog = async function (key) {
     }
 }
 
-module.exports = {register, login, addLog, queryLog};
+var queryTypeLogs = async function (type) {
+    let conn, rows;
+    try {
+        conn = await pool.getConnection();
+        rows = await conn.query('SELECT * from logs where type=?', type);
+    } catch (err) {
+        throw err;
+    } finally {
+        if(conn) conn.release();
+        return rows;
+    }
+}
+
+var queryAllLogs = async function () {
+    let conn, rows;
+    try {
+        conn = await pool.getConnection();
+        rows = await conn.query('SELECT * from logs');
+    } catch (err) {
+        throw err;
+    } finally {
+        if(conn) conn.release();
+        return rows;
+    }
+}
+
+module.exports = {register, login, addLog, queryLog, queryAllLogs, queryTypeLogs};

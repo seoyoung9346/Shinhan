@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const query = require('./api/query');
-const login = require('./api/login');
+const adminLogin = require('./api/adminLogin');
+const logs = require('./logs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -19,7 +20,7 @@ router.get('/admin', function(req, res, next) {
 
 router.post('/login', async function(req, res, next) {
   console.log('hey');
-  await login(req, res, next);
+  await adminLogin(req, res, next);
 });
 
 router.get('/rejected', function(req, res, next) {

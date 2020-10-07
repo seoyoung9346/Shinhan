@@ -11,11 +11,11 @@
 <body>
 	<nav>
         <ul class="nav-container">
-            <li class="nav-item"> <a href="totalData.html">이력관리 홈</a> </li>
-            <li class="nav-item"> <a href="findData.html">신용장 조회</a> </li>
-            <li class="nav-item"> <a href="printData.html">신용장 출력</a> </li>
-            <li class="nav-item"> <a href="rejectData.html">신용장 거절</a> </li>
-            <li class="nav-item"> <a href="buyData.html">신용장 매입</a> </li>
+            <li class="nav-item"> <a href="/logs">이력관리 홈</a> </li>
+            <li class="nav-item"> <a href="/logs/inquire">신용장 조회</a> </li>
+            <li class="nav-item"> <a href="/logs/print">신용장 출력</a> </li>
+            <li class="nav-item"> <a href="/logs/reject">신용장 거절</a> </li>
+            <li class="nav-item"> <a href="/logs/buy">신용장 매입</a> </li>
         </ul>
     </nav>
     
@@ -38,5 +38,13 @@
         </div>
     </div>
 </body>
+<script type="text/javascript">
+    function htmlDecode(input){
+      var e = document.createElement('div');
+      e.innerHTML = input;
+      return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+    }
+    var result = JSON.parse(htmlDecode("<%= JSON.stringify(result) %>"));
+</script>
 <script type="text/javascript" src="/javascripts/totalData.js"></script>
 </html>
