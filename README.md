@@ -17,3 +17,9 @@ users 테이블과 logs 테이블을 생성해야함
 <h2> 체인코드 연동 : <br></h2>
 hyperledger fabric 2.1.0을 설치하고 fabric-samples/chaincode/go/fabcar.go 를 chaincodeLC.go에 있는 내용으로 바꿈.
 그 후에 test-network에서 네트워크 실행 및 체인코드 설치하면 연동됨
+
+
+<h2>서버 폴더 구조:<br></h2>
+views에 html, <br>
+public에 js/css <br>
+routes에 node.js 서버 파일
