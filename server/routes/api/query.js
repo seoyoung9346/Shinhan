@@ -3,7 +3,7 @@ const mariaDB = require('./mariadb-connect.js');
 require('date-utils');
 
 module.exports = async function(req, res, next){
-    //키 값 파싱
+    //키 파싱
     let keyJson = {
         bankCode: req.body.bankCode,
         notiNumber: req.body.notiNumber,
@@ -28,7 +28,7 @@ module.exports = async function(req, res, next){
         //에러 출력
         console.log(error);
         //신용장 조회가 실패했을 시 DB에 기록
-        res.render('getLC', {isSuccess: false, result: ['aa', 'bb'], });
+        res.render('getLC', {isSuccess: false, result: ['failed'], });
     } finally {
         const dbResult = await mariaDB.addLog(keyJson);
     }

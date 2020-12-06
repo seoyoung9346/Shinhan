@@ -9,6 +9,6 @@ function inquiry()
     }
     else
     {
-         document.authForm.submit();
+         document.getElementById('authForm').submit();
     }
 }

@@ -19,7 +19,6 @@ router.get('/admin', function(req, res, next) {
 });
 
 router.post('/login', async function(req, res, next) {
-  console.log('hey');
   await adminLogin(req, res, next);
 });
 

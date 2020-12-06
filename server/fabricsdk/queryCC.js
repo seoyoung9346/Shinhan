@@ -11,11 +11,11 @@ const fs = require('fs');
 async function getNetwork() {
     try{
     // load the network configuration
-    const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
+    const ccpPath = path.resolve(__dirname, '..', '..', 'fabric-samples', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
     const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
     // Create a new file system based wallet for managing identities.
-    const walletPath = path.join(process.cwd(), '..', 'javascript', 'wallet');
+    const walletPath = path.join(__dirname, 'wallet');
     const wallet = await Wallets.newFileSystemWallet(walletPath);
     console.log(`Wallet path: ${walletPath}`);
 
@@ -54,7 +54,7 @@ async function GetLC(keyJson) {
         let contract = network.getContract('fabcar', 'ValueContract');
         //트랜잭션 실행 후 결과 반환
         const result = await contract.evaluateTransaction('GetLC', keyJsonStr);
-        return result;
+        return JSON.parse(result.toString('utf-8'));
     } catch (error) {
         console.log(`Failed to evaluate transaction: ${error}`)
     }
@@ -67,10 +67,10 @@ async function EnrollLC(keyJson, lcMasterJson, lcValueJson) {
         const keyJsonStr = JSON.stringify(keyJson);
         const lcMasterJsonStr = JSON.stringify(lcMasterJson);
         const lcValueJsonStr = JSON.stringify(lcValueJson);
-
+        
         let contract = await network.getContract('fabcar', 'MasterContract');
         await contract.submitTransaction('EnrollLC', keyJsonStr, lcMasterJsonStr);
-
+        console.log("here");
         contract = await network.getContract('fabcar', 'ValueContract');
         await contract.submitTransaction('EnrollLC', keyJsonStr, lcValueJsonStr);
     } catch (error) {

@@ -27,7 +27,7 @@ var login = async function (userid) {
     let conn, rows;
     try {
         conn = await pool.getConnection();
-        rows = await conn.query('SELECT * from users where id=?', userid);
+        rows = await conn.query(`SELECT * from users where userid='${userid}'`);
     } catch (err) {
         throw err;
     } finally {

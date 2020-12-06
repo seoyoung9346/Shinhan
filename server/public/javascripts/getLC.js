@@ -1,4 +1,4 @@
-function send (callback) {
+function send (method, url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === xhr.DONE) {
@@ -9,21 +9,22 @@ function send (callback) {
             }
         }
     };
-    xhr.open('GET', '/rejected');
+    xhr.open(method, url);
     xhr.send();
 }
 
 function loadText(result) {
+    console.log(result);
     // 페이지 수
     var count = result.length;
     // 최상위 컨테이너 생성
     var div = document.createElement('div');
     div.className = 'topcontainer';
-    for (var i = 0; i < count; i += 30) {
+    for (var i = 0; i < count/30; i++) {
         var page = document.createElement('div');
         page.className = 'page';
-        for (var j = 0; j < 30; j++) {
-            page.innerHTML += result[i+j] + '<br>';
+        for (var j = 0; j < 30 && j < count; j++) {
+            page.innerHTML += result[i*30+j] + '<br>';
         }
         div.appendChild(page);
     }
@@ -68,6 +69,6 @@ function getQR() {
     //send('getQr.jsp?z=bank.html?'bankCode='+keys[0]+'notiNumber='+keys[1]+'notiChangeNum='+keys[2]', 'qr', keys[0], keys[1], keys[2]);
 }
 
-/* 여기서부터 실행 */
-loadText(result);
-console.log(result);
+loadText(result.lcHeader);
+loadText(result.lcBody);
+loadText(result.lcTail);
